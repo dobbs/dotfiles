@@ -30,7 +30,7 @@ tmux
 tree
 zsh'
 
-  comm <(brew ls) <(echo "$BREWS") | xargs brew install
+  comm -13 <(brew ls) <(echo "$BREWS") | xargs brew install
 }
 
 install-font() {
