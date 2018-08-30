@@ -14,15 +14,12 @@ main() {
 install-brews() {
   BREWS='aspell
 chezscheme
-curl
 emacs
-gnu-tar
 gnupg
 graphviz
 jq
 miller
 node
-nvm
 openssl
 stow
 the_silver_searcher
