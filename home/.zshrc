@@ -38,7 +38,6 @@ if ! zgen saved; then
   # Adds aliases to open your current repo & branch on github.
   zgen load peterhurford/git-it-on.zsh
 
-  zgen oh-my-zsh plugins/sudo
   zgen oh-my-zsh plugins/colored-man-pages
   zgen oh-my-zsh plugins/git
   zgen oh-my-zsh plugins/github
@@ -59,10 +58,6 @@ if ! zgen saved; then
 
   # Add Fish-like autosuggestions to your ZSH
   zgen load zsh-users/zsh-autosuggestions
-
-  # k is a zsh script / plugin to make directory listings more readable,
-  # adding a bit of color and some git status information on files and directories
-  zgen load supercrabtree/k
 
   # Bullet train prompt setup
   zgen load caiogondim/bullet-train-oh-my-zsh-theme bullet-train
