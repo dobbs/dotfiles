@@ -9,6 +9,7 @@ main() {
   install-zgen
   install-shell
   install-dotfiles
+  install-url-handlers
 }
 
 install-brews() {
@@ -62,6 +63,17 @@ install-dotfiles() {
   stow --target=$HOME home
 }
 
+install-url-handlers() {
+  local lsregister="$(find /System/Library/Frameworks -name lsregister)"
+  test -d /Applications/Xcode.app && $lsregister -u /Applications/Xcode.app
+  test -d /Applications/Emacs.app && $lsregister /Applications/Emacs.app
+  cat <<EOF | while read -r SCHEME; do duti -s org.gnu.emacs $SCHEME all; done
+    public.source-code
+    public.xml
+    public.plain-text
+EOF
+}
+
 usage() {
   cat <<EOF
 Usage: $(basename $0) COMMAND
@@ -72,6 +84,7 @@ Usage: $(basename $0) COMMAND
     zgen
     shell
     dotfiles
+    url-handlers
 
 EOF
 }
@@ -81,7 +94,7 @@ case $CMD in
   all)
     main
     ;;
-  brews|font|zgen|shell|dotfiles)
+  brews|font|zgen|shell|dotfiles|url-handlers)
     install-$CMD
     ;;
   *)
