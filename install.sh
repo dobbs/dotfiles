@@ -28,6 +28,7 @@ tree
 zsh'
 
   comm -13 <(brew ls) <(echo "$BREWS") | xargs brew install
+  brew cask ls emacs > /dev/null 2>&1 || brew cask install emacs
 }
 
 install-font() {
