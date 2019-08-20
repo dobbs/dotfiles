@@ -49,6 +49,7 @@ if ! zgen saved; then
   zgen load peterhurford/git-it-on.zsh
 
   zgen oh-my-zsh plugins/colored-man-pages
+  zgen oh-my-zsh plugins/emacs
   zgen oh-my-zsh plugins/git
   zgen oh-my-zsh plugins/github
   zgen oh-my-zsh plugins/rbenv
@@ -75,6 +76,20 @@ if ! zgen saved; then
 
   # generate the init script from plugins above
   zgen save
+fi
+
+# Thanks, unixorn:
+# https://github.com/unixorn/zsh-quickstart-kit/blob/daf8be4b46/zsh/.zshrc#L225-L235
+# Make it easy to append your own customizations that override the above by
+# loading all files from the ~/.zshrc.d directory
+mkdir -p ~/.zshrc.d
+if [ -n "$(/bin/ls ~/.zshrc.d)" ]; then
+  for dotfile in ~/.zshrc.d/*
+  do
+    if [ -r "${dotfile}" ]; then
+      source "${dotfile}"
+    fi
+  done
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
