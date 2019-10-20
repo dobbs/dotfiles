@@ -9,7 +9,7 @@ main() {
   install-shell
   install-dotfiles
   install-url-handlers
-  install-solarized-iterm2
+  install-iterm2-configs
   install-emacs-packages
 }
 
@@ -30,13 +30,11 @@ tree
 zsh'
 
   CASKS='emacs
-spectacle'
+spectacle
+iterm2'
 
   comm -13 <(brew ls) <(echo "$BREWS") | xargs brew install
   comm -13 <(brew cask ls) <(echo "$CASKS") | xargs brew cask install
-  brew cask ls iterm2 &> /dev/null \
-    || ls -d /Applications/iTerm.app &> /dev/null \
-    || brew cask install iterm2
 }
 
 install-font() {
@@ -98,7 +96,7 @@ iterm2-has-presets() {
   defaults read ~/Library/Preferences/com.googlecode.iterm2.plist "Custom Color Presets" > /dev/null 2>&1
 }
 
-install-solarized-iterm2() {
+install-iterm2-configs() {
     mkdir -p "${HOME}/workspace"
     test -d "${HOME}/workspace/solarized" || {
         (cd "${HOME}/workspace"; git clone git://github.com/altercation/solarized.git)
@@ -114,6 +112,12 @@ install-solarized-iterm2() {
 
     plutil -replace "New Bookmarks"."Normal Font" \
            -string "Hack-Regular 12" \
+           -- ~/Library/Preferences/com.googlecode.iterm2.plist
+    plutil -replace "New Bookmarks"."Scrollback Lines" \
+           -integer 0 \
+           -- ~/Library/Preferences/com.googlecode.iterm2.plist
+    plutil -replace "New Bookmarks"."Option Key Sends" \
+           -integer 2 \
            -- ~/Library/Preferences/com.googlecode.iterm2.plist
 }
 
@@ -148,7 +152,7 @@ Usage: $(basename $0) COMMAND
     shell
     dotfiles
     url-handlers
-    solarized-iterm2
+    iterm2-configs
     emacs-packages
 
 EOF
@@ -159,7 +163,7 @@ case $CMD in
   all)
     main
     ;;
-  brews|font|prelude|zgen|shell|dotfiles|url-handlers|solarized-iterm2|emacs-packages)
+  brews|font|prelude|zgen|shell|dotfiles|url-handlers|iterm2-configs|emacs-packages)
     install-$CMD
     ;;
   parse-presets-to-json|reformat-for-new-bookmarks)
