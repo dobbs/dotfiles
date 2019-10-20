@@ -5,12 +5,12 @@ main() {
   install-brews
   install-font
   install-prelude
-  # TODO emacs install packages
   install-zgen
   install-shell
   install-dotfiles
   install-url-handlers
-  install-solarized
+  install-solarized-iterm2
+  install-emacs-packages
 }
 
 install-brews() {
@@ -30,7 +30,10 @@ tree
 zsh'
 
   comm -13 <(brew ls) <(echo "$BREWS") | xargs brew install
-  brew cask ls emacs > /dev/null 2>&1 || brew cask install emacs
+  brew cask ls emacs &> /dev/null || brew cask install emacs
+  brew cask ls iterm2 &> /dev/null \
+    || ls -d /Applications/iTerm.app &> /dev/null \
+    || brew cask install iterm2
 }
 
 install-font() {
@@ -48,35 +51,6 @@ install-prelude() {
     curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
     rm -rf "${HOME}/.emacs.d/personal"
   }
-}
-
-parse-presets-to-json() {
-  plutil -convert json -o - \
-    -- ${HOME}/workspace/solarized/iterm2-colors-solarized/Solarized\ Light.itermcolors \
-    | jq '{"Solarized Light" : .}'
-}
-
-iterm2-has-presets() {
-  defaults read ~/Library/Preferences/com.googlecode.iterm2.plist "Custom Color Presets" > /dev/null 2>&1
-}
-
-install-solarized() {
-    mkdir -p "${HOME}/workspace"
-    test -d "${HOME}/workspace/solarized" || {
-        (cd "${HOME}/workspace"; git clone git://github.com/altercation/solarized.git)
-    }
-    local PRESETS=$(parse-presets-to-json)
-    if iterm2-has-presets; then
-      plutil -replace "Custom Color Presets" -json "$PRESETS" \
-           -- ~/Library/Preferences/com.googlecode.iterm2.plist
-    else
-      plutil -insert "Custom Color Presets" -json "$PRESETS" \
-           -- ~/Library/Preferences/com.googlecode.iterm2.plist
-    fi
-
-    plutil -replace "New Bookmarks"."Normal Font" \
-           -string "Hack-Regular 12" \
-           -- ~/Library/Preferences/com.googlecode.iterm2.plist
 }
 
 install-zgen() {
@@ -111,6 +85,54 @@ install-url-handlers() {
 EOF
 }
 
+parse-presets-to-json() {
+  plutil -convert json -o - \
+    -- ${HOME}/workspace/solarized/iterm2-colors-solarized/Solarized\ Light.itermcolors \
+    | jq '{"Solarized Light" : .}'
+}
+
+iterm2-has-presets() {
+  defaults read ~/Library/Preferences/com.googlecode.iterm2.plist "Custom Color Presets" > /dev/null 2>&1
+}
+
+install-solarized-iterm2() {
+    mkdir -p "${HOME}/workspace"
+    test -d "${HOME}/workspace/solarized" || {
+        (cd "${HOME}/workspace"; git clone git://github.com/altercation/solarized.git)
+    }
+    local PRESETS=$(parse-presets-to-json)
+    if iterm2-has-presets; then
+      plutil -replace "Custom Color Presets" -json "$PRESETS" \
+           -- ~/Library/Preferences/com.googlecode.iterm2.plist
+    else
+      plutil -insert "Custom Color Presets" -json "$PRESETS" \
+           -- ~/Library/Preferences/com.googlecode.iterm2.plist
+    fi
+
+    plutil -replace "New Bookmarks"."Normal Font" \
+           -string "Hack-Regular 12" \
+           -- ~/Library/Preferences/com.googlecode.iterm2.plist
+}
+
+elisp-install-packages() {
+  cat <<ELISP
+(progn
+ (message "\n\n####################")
+ (package-initialize)
+ (package-install-selected-packages)
+)
+ELISP
+}
+
+install-emacs-packages() {
+  # hack chicken-and-egg problem: solarized theme isn't installed yet
+  perl -pi -e 's{^.*solarized.*$}{}' home/.emacs.d/personal/preload/theme.el
+  /Applications/Emacs.app/Contents/MacOS/Emacs \
+    --batch -l ~/.emacs.d/init.el \
+    --eval "$(elisp-install-packages)"
+  git checkout -- home/.emacs.d/personal/preload/theme.el
+}
+
 usage() {
   cat <<EOF
 Usage: $(basename $0) COMMAND
@@ -119,11 +141,12 @@ Usage: $(basename $0) COMMAND
     brews
     font
     prelude
-    solarized
     zgen
     shell
     dotfiles
     url-handlers
+    solarized-iterm2
+    emacs-packages
 
 EOF
 }
@@ -133,7 +156,7 @@ case $CMD in
   all)
     main
     ;;
-  brews|font|prelude|solarized|zgen|shell|dotfiles|url-handlers)
+  brews|font|prelude|zgen|shell|dotfiles|url-handlers|solarized-iterm2|emacs-packages)
     install-$CMD
     ;;
   parse-presets-to-json|reformat-for-new-bookmarks)
