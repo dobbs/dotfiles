@@ -29,8 +29,11 @@ tmux
 tree
 zsh'
 
+  CASKS='emacs
+spectacle'
+
   comm -13 <(brew ls) <(echo "$BREWS") | xargs brew install
-  brew cask ls emacs &> /dev/null || brew cask install emacs
+  comm -13 <(brew cask ls) <(echo "$CASKS") | xargs brew cask install
   brew cask ls iterm2 &> /dev/null \
     || ls -d /Applications/iTerm.app &> /dev/null \
     || brew cask install iterm2
