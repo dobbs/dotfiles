@@ -3,13 +3,14 @@ set -euo pipefail
 
 main() {
   install-brews
-  # TODO install prelude
-  # TODO emacs install packages
   install-font
+  install-prelude
+  # TODO emacs install packages
   install-zgen
   install-shell
   install-dotfiles
   install-url-handlers
+  install-solarized
 }
 
 install-brews() {
@@ -40,6 +41,42 @@ install-font() {
     test -f $ARCHIVE || curl -sSL -o $ARCHIVE $SOURCE
     unzip -j -d $TARGET_DIR $ARCHIVE
   }
+}
+
+install-prelude() {
+  test -d "${HOME}/.emacs.d" || {
+    curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
+    rm -rf "${HOME}/.emacs.d/personal"
+  }
+}
+
+parse-presets-to-json() {
+  plutil -convert json -o - \
+    -- ${HOME}/workspace/solarized/iterm2-colors-solarized/Solarized\ Light.itermcolors \
+    | jq '{"Solarized Light" : .}'
+}
+
+iterm2-has-presets() {
+  defaults read ~/Library/Preferences/com.googlecode.iterm2.plist "Custom Color Presets" > /dev/null 2>&1
+}
+
+install-solarized() {
+    mkdir -p "${HOME}/workspace"
+    test -d "${HOME}/workspace/solarized" || {
+        (cd "${HOME}/workspace"; git clone git://github.com/altercation/solarized.git)
+    }
+    local PRESETS=$(parse-presets-to-json)
+    if iterm2-has-presets; then
+      plutil -replace "Custom Color Presets" -json "$PRESETS" \
+           -- ~/Library/Preferences/com.googlecode.iterm2.plist
+    else
+      plutil -insert "Custom Color Presets" -json "$PRESETS" \
+           -- ~/Library/Preferences/com.googlecode.iterm2.plist
+    fi
+
+    plutil -replace "New Bookmarks"."Normal Font" \
+           -string "Hack-Regular 12" \
+           -- ~/Library/Preferences/com.googlecode.iterm2.plist
 }
 
 install-zgen() {
@@ -81,6 +118,8 @@ Usage: $(basename $0) COMMAND
     all
     brews
     font
+    prelude
+    solarized
     zgen
     shell
     dotfiles
@@ -94,8 +133,11 @@ case $CMD in
   all)
     main
     ;;
-  brews|font|zgen|shell|dotfiles|url-handlers)
+  brews|font|prelude|solarized|zgen|shell|dotfiles|url-handlers)
     install-$CMD
+    ;;
+  parse-presets-to-json|reformat-for-new-bookmarks)
+    $CMD
     ;;
   *)
     usage
