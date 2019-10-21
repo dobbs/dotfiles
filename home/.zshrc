@@ -91,15 +91,3 @@ if [ -n "$(/bin/ls ~/.zshrc.d)" ]; then
     fi
   done
 fi
-
-# zsh has a super helpful abstraction for modifying PATH
-# https://superuser.com/a/598924/751637
-mkdir -p ~/bin
-typeset -U path
-path=(
-  ${HOME}/bin
-  $path
-)
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-unset auto_cd
