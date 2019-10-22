@@ -1,0 +1,60 @@
+#!/bin/bash
+set -euo pipefail
+ITS=$'\n\r\t'
+
+usage() {
+  cat <<EOF
+Usage: $(basename $0) DOMAIN
+
+generate ssh key pair with organized subdirectories of .ssh
+
+  ~/.ssh/config
+    Include ~/.ssh/DOMAIN/config
+  ~/.ssh/DOMAIN/config
+    Host DOMAIN
+      Hostname DOMAIN
+      IdentityFile ~/.ssh/DOMAIN/id_ecdsa
+
+EOF
+  exit 1
+}
+
+main() {
+  parse-args "$@" || usage
+  ensure-directory
+  generate-config
+  generate-keys
+}
+
+parse-args() {
+  readonly DOMAIN="${1:-UNSPECIFIED}"
+  readonly DOMAIN_DIR=~/.ssh/$DOMAIN
+  perl -e 'exit($ARGV[0] =~ qr{\w+\.\w+} ? 0 : 1)' $DOMAIN
+}
+
+ensure-directory() {
+  mkdir -p $DOMAIN_DIR
+  chmod 700 ~/.ssh
+  chmod 700 $DOMAIN_DIR
+}
+
+generate-config() {
+  if ! grep -q "Include ${DOMAIN_DIR}/config" ~/.ssh/config; then
+    printf "Include %s/config\n" $DOMAIN_DIR >> ~/.ssh/config
+    chmod 600 ~/.ssh/config
+  fi
+  if ! test -r $DOMAIN_DIR/config; then
+    cat > $DOMAIN_DIR/config <<EOF
+Host $DOMAIN
+  Hostname $DOMAIN
+  IdentityFile $DOMAIN_DIR/id_ecdsa
+EOF
+    chmod 600 $DOMAIN_DIR/config
+  fi
+}
+
+generate-keys() {
+  ssh-keygen -t ecdsa -b 521 -f $DOMAIN_DIR/id_ecdsa
+}
+
+main "$@"
