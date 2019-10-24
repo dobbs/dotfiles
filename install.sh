@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+readonly DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 main() {
   install-brews
   install-font
@@ -11,6 +13,7 @@ main() {
   install-url-handlers
   install-iterm2-configs
   install-emacs-packages
+  install-local
 }
 
 install-brews() {
@@ -140,6 +143,17 @@ install-emacs-packages() {
   git checkout -- home/.emacs.d/personal/preload/theme.el
 }
 
+install-local() {
+  if [ -n "$(/bin/ls $DIR/install.d)" ]; then
+    for installfile in $DIR/install.d/*
+    do
+      if [ -r "${installfile}" ]; then
+        source "${installfile}"
+      fi
+    done
+  fi
+}
+
 usage() {
   cat <<EOF
 Usage: $(basename $0) COMMAND
@@ -154,6 +168,7 @@ Usage: $(basename $0) COMMAND
     url-handlers
     iterm2-configs
     emacs-packages
+    local
 
 EOF
 }
@@ -163,7 +178,7 @@ case $CMD in
   all)
     main
     ;;
-  brews|font|prelude|zgen|shell|dotfiles|url-handlers|iterm2-configs|emacs-packages)
+  brews|font|prelude|zgen|shell|dotfiles|url-handlers|iterm2-configs|emacs-packages|local)
     install-$CMD
     ;;
   parse-presets-to-json|reformat-for-new-bookmarks)
