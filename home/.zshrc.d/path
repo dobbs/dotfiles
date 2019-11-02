@@ -5,4 +5,6 @@ typeset -U path
 path=(
   ${HOME}/bin
   $path
+  $(go env GOPATH)/bin
+  /usr/local/kubebuilder/bin
 )

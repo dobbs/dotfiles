@@ -21,8 +21,11 @@ install-brews() {
 chezscheme
 duti
 gnupg
+golang
 graphviz
 jq
+kubectl
+kustomize
 miller
 node
 openssl

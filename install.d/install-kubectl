@@ -1,0 +1,7 @@
+#!/bin/bash
+set -euo pipefail
+ITS=$'\n\r\t'
+
+# doesn't actually install... that's handled by homebrew in install.sh
+# here we're just overriding docker's installed kubectl
+brew link --overwrite kubernetes-cli

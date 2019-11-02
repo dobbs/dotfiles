@@ -52,6 +52,7 @@ if ! zgen saved; then
   zgen oh-my-zsh plugins/emacs
   zgen oh-my-zsh plugins/git
   zgen oh-my-zsh plugins/github
+  zgen oh-my-zsh plugins/kubectl
   zgen oh-my-zsh plugins/nvm
   zgen oh-my-zsh plugins/rbenv
   zgen oh-my-zsh plugins/python
