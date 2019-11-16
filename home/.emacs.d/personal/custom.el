@@ -22,6 +22,7 @@
     (ace-window anaconda-mode anzu async avy beacon bind-key browse-kill-ring coffee-mode company company-anaconda company-lsp counsel crux csv-mode dash diff-hl diminish discover-my-major dockerfile-mode easy-kill editorconfig elisp-slime-nav epl exec-path-from-shell expand-region f flx flx-ido flycheck geiser gh ghub gist git-commit git-timemachine gitconfig-mode gitignore-mode go-mode god-mode graphviz-dot-mode grizzl groovy-mode guru-mode haml-mode helm helm-ag helm-core helm-descbinds helm-projectile hl-todo ht ido-completing-read+ imenu-anywhere inf-ruby ivy js2-mode json-mode json-reformat json-snatcher logito lsp-ui magit magit-popup makey markdown-mode marshal memoize move-text operate-on-number org-clock-convenience ov pcache pkg-info popup rainbow-delimiters rich-minority s scss-mode smartrep smex solarized-theme undo-tree vkill vmd-mode volatile-highlights yaml-mode yari zop-to-char)))
  '(sh-basic-offset 2)
  '(solarized-high-contrast-mode-line nil)
+ '(tab-width 2)
  '(web-mode-code-indent-offset 2)
  '(web-mode-markup-indent-offset 2))
 (custom-set-faces
