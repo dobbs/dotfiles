@@ -36,6 +36,7 @@ tree
 zsh'
 
   CASKS='emacs
+firefox
 spectacle
 iterm2'
 
