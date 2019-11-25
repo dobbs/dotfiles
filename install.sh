@@ -24,6 +24,7 @@ gnupg
 golang
 graphviz
 jq
+kind
 kubectl
 kustomize
 miller

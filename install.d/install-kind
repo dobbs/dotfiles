@@ -1,5 +1,0 @@
-#!/bin/bash
-set -euo pipefail
-ITS=$'\n\r\t'
-
-(cd /tmp/ && GO111MODULE="on" go get sigs.k8s.io/kind)
