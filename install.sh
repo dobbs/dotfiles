@@ -8,7 +8,6 @@ main() {
   install-font
   install-prelude
   install-zgen
-  install-shell
   install-dotfiles
   install-url-handlers
   install-iterm2-configs
@@ -33,10 +32,11 @@ openssl
 stow
 the_silver_searcher
 tmux
-tree
-zsh'
+tree'
 
-  CASKS='emacs
+  CASKS='1password
+docker
+emacs
 firefox
 spectacle
 iterm2'
