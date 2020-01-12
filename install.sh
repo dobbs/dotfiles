@@ -20,15 +20,15 @@ install-brews() {
 chezscheme
 duti
 gnupg
-golang
+go
 graphviz
 jq
 kind
-kubectl
+kubernetes-cli
 kustomize
 miller
 node
-openssl
+openssl@1.1
 stow
 the_silver_searcher
 tmux
@@ -38,11 +38,11 @@ tree'
 docker
 emacs
 firefox
-spectacle
-iterm2'
+iterm2
+spectacle'
 
-  comm -13 <(brew ls) <(echo "$BREWS") | xargs brew install
-  comm -13 <(brew cask ls) <(echo "$CASKS") | xargs brew cask install
+  comm -13 <(brew ls | sort) <(echo "$BREWS" | sort) | xargs brew install
+  comm -13 <(brew cask ls | sort) <(echo "$CASKS" | sort) | xargs brew cask install
 }
 
 install-font() {
