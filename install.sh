@@ -23,6 +23,7 @@ gnupg
 go
 graphviz
 jq
+k3d
 kind
 kubernetes-cli
 kustomize
