@@ -3,7 +3,12 @@ set -euo pipefail
 ITS=$'\n\r\t'
 
 k3d ls 2>/dev/null | grep -q 'wiki' || {
-  k3d create --publish 80:80 --name=wiki
+  k3d create \
+      --server-arg --tls-san="127.0.0.1" \
+      --publish 80:80 \
+      -v "$HOME/.wiki-k8s:/macos/.wiki-k8s" \
+      -v "$HOME/workspace/fedwiki:/macos/fedwiki" \
+      --name wiki
 }
 
 readonly CONFIG=$HOME/.zshrc.d/kubeconfig
