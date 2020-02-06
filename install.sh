@@ -18,13 +18,19 @@ main() {
 install-brews() {
   BREWS='aspell
 chezscheme
+deno
 duti
+gnu-sed
+gnu-tar
 gnupg
 go
 graphviz
+helm
+httpie
 jq
 k3d
 kind
+kubebuilder
 kubernetes-cli
 kustomize
 miller
@@ -33,6 +39,7 @@ openssl@1.1
 stow
 the_silver_searcher
 tmux
+vault
 tree'
 
   CASKS='1password
