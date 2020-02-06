@@ -12,7 +12,8 @@
  '(org-agenda-files (quote ("~/Documents/GTD.org")))
  '(org-default-notes-file "~/Documents/GTD.org")
  '(org-habit-following-days 14)
- '(org-habit-preceding-days 90)
+ '(org-habit-graph-column 32)
+ '(org-habit-preceding-days 120)
  '(org-habit-show-all-today t)
  '(org-modules
    (quote
