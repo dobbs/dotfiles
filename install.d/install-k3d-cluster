@@ -11,17 +11,29 @@ k3d ls 2>/dev/null | grep -q 'wiki' || {
       --name wiki
 }
 
-readonly CONFIG=$HOME/.zshrc.d/kubeconfig
-[ -f $CONFIG ] && grep -q wiki $CONFIG || {
-    for retries in 1 2 3 4 5 6 7 8; do
-      if k3d get-kubeconfig --name=wiki &>/dev/null; then
-        break
-      fi
-      echo waiting for cluster config: $retries of 8 tries
-      sleep 1
-    done
-    cat > $CONFIG <<EOF
-#!/bin/bash
-export KUBECONFIG="$(k3d get-kubeconfig --name=wiki)"
-EOF
+k3d-wiki-config () {
+  k3d get-kubeconfig --name=wiki
+}
+resolve-link() {
+  perl -MCwd -e 'print Cwd::abs_path shift' "$1"
+}
+readonly LINK=$HOME/.kube/k3d-wiki.yaml
+readonly DATE=$(date +%Y-%m-%d-%H%M)
+readonly CONFIG=$HOME/.kube/config
+
+[ -h $LINK ] || {
+  for retries in 1 2 3 4 5 6 7 8; do
+    if k3d-wiki-config &>/dev/null; then
+      break
+    fi
+    echo waiting for cluster config: $retries of 8 tries
+    sleep 1
+  done
+  ln -s $(k3d-wiki-config) $LINK
+}
+
+# move existing k8s config file & replace with our symlink
+[ "$(resolve-link $CONFIG)" == "$(k3d-wiki-config)" ] || {
+  [ -e $CONFIG ] && { mv ${CONFIG}{,-replaced-on-$DATE}; }
+  ln -s $LINK $CONFIG
 }
