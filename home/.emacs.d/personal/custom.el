@@ -24,6 +24,7 @@
  '(sh-basic-offset 2)
  '(solarized-high-contrast-mode-line nil)
  '(tab-width 2)
+ '(typescript-indent-level 2)
  '(web-mode-code-indent-offset 2)
  '(web-mode-markup-indent-offset 2))
 (custom-set-faces
