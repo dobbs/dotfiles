@@ -17,12 +17,14 @@ BULLETTRAIN_PROMPT_ADD_NEWLINE=0 # plays better with iterm2 shell integration
 BULLETTRAIN_CONTEXT_DEFAULT_USER=$USER
 BULLETTRAIN_DIR_BG=152
 BULLETTRAIN_DIR_FG=black
-BULLETTRAIN_NVM_BG=157 #194
+BULLETTRAIN_NVM_BG=151
 BULLETTRAIN_NVM_FG=black
 BULLETTRAIN_RUBY_BG=224
 BULLETTRAIN_RUBY_FG=black
 BULLETTRAIN_VIRTUALENV_BG=151 #144 #230
 BULLETTRAIN_VIRTUALENV_FG=black
+BULLETTRAIN_KCTX_BG=146
+BULLETTRAIN_KCTX_FG=black
 # BULLETTRAIN_GIT_BG=223
 # BULLETTRAIN_GIT_FG=black
 
@@ -79,6 +81,9 @@ if ! zgen saved; then
   # generate the init script from plugins above
   zgen save
 fi
+
+typeset -U BULLETTRAIN_PROMPT_ORDER
+BULLETTRAIN_PROMPT_ORDER+=(kctx)
 
 # Thanks, unixorn:
 # https://github.com/unixorn/zsh-quickstart-kit/blob/daf8be4b46/zsh/.zshrc#L225-L235
