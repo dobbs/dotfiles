@@ -6,6 +6,7 @@
  '(custom-safe-themes
    (quote
     ("0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+ '(epa-pinentry-mode 'loopback)
  '(global-display-line-numbers-mode t)
  '(js-indent-level 2)
  '(js2-strict-missing-semi-warning nil)
