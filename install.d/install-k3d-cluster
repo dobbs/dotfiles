@@ -2,38 +2,11 @@
 set -euo pipefail
 ITS=$'\n\r\t'
 
-k3d ls 2>/dev/null | grep -q 'wiki' || {
-  k3d create \
-      --server-arg --tls-san="127.0.0.1" \
-      --publish 80:80 \
-      -v "$HOME/.wiki-k8s:/macos/.wiki-k8s" \
-      -v "$HOME/workspace/fedwiki:/macos/fedwiki" \
-      --name wiki
-}
-
-k3d-wiki-config () {
-  k3d get-kubeconfig --name=wiki
-}
-resolve-link() {
-  perl -MCwd -e 'print Cwd::abs_path shift' "$1"
-}
-readonly LINK=$HOME/.kube/k3d-wiki.yaml
-readonly DATE=$(date +%Y-%m-%d-%H%M)
-readonly CONFIG=$HOME/.kube/config
-
-[ -h $LINK ] || {
-  for retries in 1 2 3 4 5 6 7 8; do
-    if k3d-wiki-config &>/dev/null; then
-      break
-    fi
-    echo waiting for cluster config: $retries of 8 tries
-    sleep 1
-  done
-  ln -s $(k3d-wiki-config) $LINK
-}
-
-# move existing k8s config file & replace with our symlink
-[ "$(resolve-link $CONFIG)" == "$(k3d-wiki-config)" ] || {
-  [ -e $CONFIG ] && { mv ${CONFIG}{,-replaced-on-$DATE}; }
-  ln -s $LINK $CONFIG
+k3d cluster list 2>/dev/null | grep -q 'wiki' || {
+  k3d cluster create wiki \
+      --k3s-server-arg --tls-san="127.0.0.1" \
+      --port 80:80@loadbalancer \
+      --volume "$HOME/.wiki-k8s:/macos/.wiki-k8s" \
+      --volume "$HOME/workspace/fedwiki:/macos/fedwiki" \
+      --wait
 }
