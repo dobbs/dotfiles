@@ -1,0 +1,20 @@
+#!/usr/bin/env perl -p
+
+# strip header and footer
+s{<html.*?<body.*?>}{};
+s{</body.*}{};
+
+# remove ids and classes
+s{ (class|id)=".*?"}{}g;
+
+# replace google tracking prefix from hrefs
+s{href="https://.*?http}{href="http}g;
+
+# remove span tags
+s{</?span.*?>}{}g;
+
+# remove empty paragraphs
+s{<p></p>}{}g;
+
+# add linefeeds for readability
+s{>}{>\n}g;
