@@ -2,6 +2,7 @@
 set -euo pipefail
 ITS=$'\n\r\t'
 
+mkdir -p $HOME/.wiki-k8s $HOME/workspace/fedwiki
 k3d cluster list 2>/dev/null | grep -q 'wiki' || {
   k3d cluster create wiki \
       --k3s-server-arg --tls-san="127.0.0.1" \
