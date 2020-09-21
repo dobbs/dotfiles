@@ -171,7 +171,7 @@ usage() {
   cat <<EOF
 Usage: $(basename $0) COMMAND
   COMMANDs:
-    all
+    all   installs everything below in the order listed
     brews
     font
     prelude
