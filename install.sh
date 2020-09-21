@@ -47,10 +47,10 @@ docker
 emacs
 firefox
 iterm2
-spectacle'
+rectangle'
 
   comm -13 <(brew ls | sort) <(echo "$BREWS" | sort) | xargs brew install
-  comm -13 <(brew cask ls | sort) <(echo "$CASKS" | sort) | xargs brew cask install
+  comm -13 <(brew ls --cask | sort) <(echo "$CASKS" | sort) | xargs brew cask install
 }
 
 install-font() {
