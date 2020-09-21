@@ -18,6 +18,7 @@ main() {
 install-brews() {
   BREWS='aspell
 chezscheme
+deno
 duti
 gnu-sed
 gnu-tar
