@@ -1,5 +1,13 @@
 # bootstrapping
 
+The point of this repo is to simplify bootstrapping a new computer.
+Also helps keep multiple computers kinda in sync.  There's a definite
+red-queen effect with every new device.  The Internet moves faster
+than this repo can keep up.
+
+I try to write the scripts to be sorta idempotent. It shouldn't hurt
+to re-run them.
+
 ### install CLI tools
     xcode-select --install
     # click Install button
