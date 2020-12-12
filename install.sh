@@ -49,8 +49,8 @@ firefox
 iterm2
 rectangle'
 
-  comm -13 <(brew ls | sort) <(echo "$BREWS" | sort) | xargs brew install
-  comm -13 <(brew ls --cask | sort) <(echo "$CASKS" | sort) | xargs brew cask install
+  comm -13 <(brew list --formula | sort) <(echo "$BREWS" | sort) | xargs brew install
+  comm -13 <(brew list --cask | sort) <(echo "$CASKS" | sort) | xargs brew cask install
 }
 
 install-font() {
