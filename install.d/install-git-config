@@ -1,0 +1,6 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\r\t'
+
+git config --get user.name > /dev/null || git config --global --add user.name "Eric Dobbs"
+git config --get user.email > /dev/null || git config --global --add user.email eric@dobbse.net
