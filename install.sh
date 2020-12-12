@@ -4,6 +4,7 @@ set -euo pipefail
 readonly DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 main() {
+  PATH=$PATH:$DIR/install.d
   install-brews
   install-font
   install-prelude
@@ -44,13 +45,13 @@ tree'
 
   CASKS='1password
 docker
-emacs
 firefox
 iterm2
 rectangle'
 
   comm -13 <(brew list --formula | sort) <(echo "$BREWS" | sort) | xargs brew install
   comm -13 <(brew list --cask | sort) <(echo "$CASKS" | sort) | xargs brew cask install
+  brew list --cask | grep -q emacs || brew cask install emacs --no-quarantine
 }
 
 install-font() {
