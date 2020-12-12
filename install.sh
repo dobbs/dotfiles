@@ -78,16 +78,6 @@ install-zgen() {
   }
 }
 
-install-shell() {
-  local ZSH_PATH=/usr/local/bin/zsh
-  fgrep -q $ZSH_PATH /etc/shells || {
-    echo $ZSH_PATH | sudo tee -a /etc/shells
-  }
-  [ "$SHELL" == "$ZSH_PATH" ] || {
-    chsh -s $ZSH_PATH
-  }
-}
-
 install-dotfiles() {
   stow --target=$HOME home
 }
@@ -177,7 +167,6 @@ Usage: $(basename $0) COMMAND
     font
     prelude
     zgen
-    shell
     dotfiles
     url-handlers
     iterm2-configs
@@ -192,7 +181,7 @@ case $CMD in
   all)
     main
     ;;
-  brews|font|prelude|zgen|shell|dotfiles|url-handlers|iterm2-configs|emacs-packages|local)
+  brews|font|prelude|zgen|dotfiles|url-handlers|iterm2-configs|emacs-packages|local)
     install-$CMD
     ;;
   parse-presets-to-json|reformat-for-new-bookmarks)
