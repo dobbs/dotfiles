@@ -133,6 +133,7 @@ elisp-install-packages() {
 (progn
  (message "\n\n####################")
  (package-initialize)
+ (package-refresh-contents)
  (package-install-selected-packages)
 )
 ELISP
