@@ -50,8 +50,8 @@ iterm2
 rectangle'
 
   comm -13 <(brew list --formula | sort) <(echo "$BREWS" | sort) | xargs brew install
-  comm -13 <(brew list --cask | sort) <(echo "$CASKS" | sort) | xargs brew cask install
-  brew list --cask | grep -q emacs || brew cask install emacs --no-quarantine
+  comm -13 <(brew list --cask | sort) <(echo "$CASKS" | sort) | xargs brew install --cask
+  brew list --cask | grep -q emacs || brew install --cask emacs --no-quarantine
 }
 
 install-font() {
