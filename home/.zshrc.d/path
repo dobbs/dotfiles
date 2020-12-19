@@ -8,4 +8,5 @@ path=(
   ${HOME}/.cargo/bin
   $(go env GOPATH)/bin
   /usr/local/kubebuilder/bin
+  ${HOME}/.deno/bin
 )
