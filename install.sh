@@ -40,8 +40,9 @@ openssl@1.1
 stow
 the_silver_searcher
 tmux
+tree
 vault
-tree'
+wget'
 
   CASKS='1password
 docker
