@@ -46,6 +46,7 @@ tree'
   CASKS='1password
 docker
 firefox
+google-chrome
 iterm2
 rectangle'
 
