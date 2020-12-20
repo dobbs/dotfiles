@@ -45,6 +45,7 @@ vault
 wget'
 
   CASKS='1password
+beaker-browser
 docker
 firefox
 google-chrome
