@@ -50,7 +50,8 @@ docker
 firefox
 google-chrome
 iterm2
-rectangle'
+rectangle
+slack'
 
   comm -13 <(brew list --formula | sort) <(echo "$BREWS" | sort) | xargs brew install
   comm -13 <(brew list --cask | sort) <(echo "$CASKS" | sort) | xargs brew install --cask
