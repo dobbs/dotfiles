@@ -46,6 +46,7 @@ wget'
 
   CASKS='1password
 beaker-browser
+discord
 docker
 firefox
 google-chrome
