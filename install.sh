@@ -6,6 +6,7 @@ readonly DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 main() {
   PATH=$PATH:$DIR/install.d
   install-brews
+  install-casks
   install-font
   install-prelude
   install-zgen
@@ -21,6 +22,7 @@ install-brews() {
 chezscheme
 deno
 duti
+git
 gnu-sed
 gnu-tar
 gnupg
@@ -44,6 +46,10 @@ tree
 vault
 wget'
 
+  comm -13 <(brew list --formula | sort) <(echo "$BREWS" | sort) | xargs brew install
+}
+
+install-casks() {
   CASKS='1password
 beaker-browser
 discord
@@ -54,7 +60,6 @@ iterm2
 rectangle
 slack'
 
-  comm -13 <(brew list --formula | sort) <(echo "$BREWS" | sort) | xargs brew install
   comm -13 <(brew list --cask | sort) <(echo "$CASKS" | sort) | xargs brew install --cask
   brew list --cask | grep -q emacs || brew install --cask emacs --no-quarantine
 }
@@ -170,6 +175,7 @@ Usage: $(basename $0) COMMAND
   COMMANDs:
     all   installs everything below in the order listed
     brews
+    casks
     font
     prelude
     zgen
@@ -187,7 +193,7 @@ case $CMD in
   all)
     main
     ;;
-  brews|font|prelude|zgen|dotfiles|url-handlers|iterm2-configs|emacs-packages|local)
+  brews|casks|font|prelude|zgen|dotfiles|url-handlers|iterm2-configs|emacs-packages|local)
     install-$CMD
     ;;
   parse-presets-to-json|reformat-for-new-bookmarks)
