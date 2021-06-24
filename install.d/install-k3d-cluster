@@ -7,6 +7,7 @@ k3d cluster list 2>/dev/null | grep -q 'wiki' || {
   k3d cluster create wiki \
       --k3s-server-arg --tls-san="127.0.0.1" \
       --port 80:80@loadbalancer \
+      --image rancher/k3s:v1.21.2-k3s1 \
       --volume "$HOME/.wiki-k8s:/macos/.wiki-k8s" \
       --volume "$HOME/workspace/fedwiki:/macos/fedwiki" \
       --wait
