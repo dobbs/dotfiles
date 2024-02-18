@@ -26,16 +26,8 @@ git
 gnu-sed
 gnu-tar
 gnupg
-go
-graphviz
-helm
 httpie
 jq
-k3d
-kind
-kubebuilder
-kubernetes-cli
-kustomize
 miller
 node
 openssl@1.1
@@ -51,7 +43,6 @@ wget'
 
 install-casks() {
   CASKS='1password
-beaker-browser
 discord
 docker
 firefox

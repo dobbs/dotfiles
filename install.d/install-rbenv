@@ -1,8 +1,0 @@
-#!/bin/bash
-
-install-rbenv() {
-  local BREWS='rbenv'
-  comm -13 <(brew ls -1) <(echo "$BREWS" | sort) | xargs brew install
-}
-
-install-rbenv
