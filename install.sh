@@ -19,7 +19,6 @@ main() {
 
 install-brews() {
   BREWS='aspell
-chezscheme
 deno
 duti
 git
@@ -30,13 +29,9 @@ httpie
 jq
 miller
 node
-openssl@1.1
 stow
 the_silver_searcher
-tmux
-tree
-vault
-wget'
+tmux'
 
   comm -13 <(brew list --formula | sort) <(echo "$BREWS" | sort) | xargs brew install
 }
@@ -107,7 +102,7 @@ iterm2-has-presets() {
 install-iterm2-configs() {
     mkdir -p "${HOME}/workspace"
     test -d "${HOME}/workspace/solarized" || {
-        (cd "${HOME}/workspace"; git clone git://github.com/altercation/solarized.git)
+        (cd "${HOME}/workspace"; git clone https://github.com/altercation/solarized.git)
     }
     local PRESETS=$(parse-presets-to-json)
     if iterm2-has-presets; then
