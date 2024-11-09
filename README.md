@@ -52,3 +52,58 @@ Also startup the docker deamon so we can install kubernetes in docker
 last, but not least
 
    ./install.sh all
+
+### update emacs packages
+
+I do this rarely, and it's painful when I do. I do not have the
+patience do develop fluency in emacs packages. Here are some notes
+from the most recent episode of yak shaving stupid package conflicts.
+
+    rm -rf ~/.emacs.d       # nuke the existing configuration
+    ./install.sh prelude    # reinstall prelude defaults
+    ./install.sh dotfiles   # fixes the symlink at ~/.emacs.d/personal
+
+edit 'package-selected-packages in ./home/.emacs.d/personal/custom.el
+oh-my-zsh emacs plugin launches emacs in deamon mode. So we have to
+quit emacs from the MacOS application menu to close that deamon.
+
+    ./install.sh emacs-packages
+    e .
+
+spot check editing:
+
+double-check magit by testing a commit of the changes. This is one of
+the main things that has broken in past upgrades.
+
+double-check a javascript file to be sure indent configurations are
+correctly set to two spaces (default is 4)
+
+#### shell script to inspect changes to package-selected-packages
+
+Review the diff of changes made to 'package-selected-packages. Copy
+the old list into OLDER and the new list into NEWER. Then run this
+command to get a readable report of the differences.
+
+    OLDER="..."
+    NEWER="..."
+
+    echo -e "\nThings only in OLDER & not in NEWER"
+    comm -23 <(tr ' ' "\n" <<<$OLDER | sort) <(tr ' ' "\n" <<<$NEWER | sort)
+
+    echo -e "\nThings only in NEWER & not in OLDER"
+    comm -13 <(tr ' ' "\n" <<<$OLDER | sort) <(tr ' ' "\n" <<<$NEWER | sort)
+
+### maybe emacs updates would be easier if I did this more often
+
+When I update rarely, some of these steps fail on conflicting packages
+changes. Maybe if I think do this more frequently, the conflicts will
+be simpler to resolve.
+
+Inside emacs:
+
+    M-x package-list-packages    # view all the packages
+    / u                          # filter to view upgradable ones
+    U                            # mark them to upgrade
+    x                            # do the actual upgrades
+    M-x prelude-update-packages  # update prelude packages
+    M-x prelude-update           # update prelude itself
