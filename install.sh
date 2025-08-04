@@ -19,6 +19,7 @@ main() {
 
 install-brews() {
   BREWS='aspell
+coreutils
 deno
 duti
 git
@@ -31,6 +32,7 @@ miller
 node
 stow
 the_silver_searcher
+tidy-html5
 tmux'
 
   comm -13 <(brew list --formula | sort) <(echo "$BREWS" | sort) | xargs brew install
