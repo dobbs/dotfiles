@@ -12,7 +12,6 @@ main() {
   install-zgen
   install-dotfiles
   install-url-handlers
-  install-iterm2-configs
   install-emacs-packages
   install-local
 }
@@ -43,8 +42,8 @@ install-casks() {
 discord
 docker
 firefox
+ghostty
 google-chrome
-iterm2
 rectangle
 slack'
 
@@ -89,41 +88,6 @@ install-url-handlers() {
     public.xml
     public.plain-text
 EOF
-}
-
-parse-presets-to-json() {
-  plutil -convert json -o - \
-    -- ${HOME}/workspace/solarized/iterm2-colors-solarized/Solarized\ Light.itermcolors \
-    | jq '{"Solarized Light" : .}'
-}
-
-iterm2-has-presets() {
-  defaults read ~/Library/Preferences/com.googlecode.iterm2.plist "Custom Color Presets" > /dev/null 2>&1
-}
-
-install-iterm2-configs() {
-    mkdir -p "${HOME}/workspace"
-    test -d "${HOME}/workspace/solarized" || {
-        (cd "${HOME}/workspace"; git clone https://github.com/altercation/solarized.git)
-    }
-    local PRESETS=$(parse-presets-to-json)
-    if iterm2-has-presets; then
-      plutil -replace "Custom Color Presets" -json "$PRESETS" \
-           -- ~/Library/Preferences/com.googlecode.iterm2.plist
-    else
-      plutil -insert "Custom Color Presets" -json "$PRESETS" \
-           -- ~/Library/Preferences/com.googlecode.iterm2.plist
-    fi
-
-    plutil -replace "New Bookmarks"."Normal Font" \
-           -string "Hack-Regular 12" \
-           -- ~/Library/Preferences/com.googlecode.iterm2.plist
-    plutil -replace "New Bookmarks"."Scrollback Lines" \
-           -integer 0 \
-           -- ~/Library/Preferences/com.googlecode.iterm2.plist
-    plutil -replace "New Bookmarks"."Option Key Sends" \
-           -integer 2 \
-           -- ~/Library/Preferences/com.googlecode.iterm2.plist
 }
 
 elisp-install-packages() {
@@ -183,9 +147,6 @@ case $CMD in
     ;;
   brews|casks|font|prelude|zgen|dotfiles|url-handlers|iterm2-configs|emacs-packages|local)
     install-$CMD
-    ;;
-  parse-presets-to-json|reformat-for-new-bookmarks)
-    $CMD
     ;;
   *)
     usage
