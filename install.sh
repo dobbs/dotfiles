@@ -45,7 +45,9 @@ firefox
 ghostty
 google-chrome
 rectangle
-slack'
+signal
+slack
+zoom'
 
   comm -13 <(brew list --cask | sort) <(echo "$CASKS" | sort) | xargs brew install --cask
   brew list --cask | grep -q emacs || brew install --cask emacs --no-quarantine
