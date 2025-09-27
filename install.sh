@@ -47,6 +47,7 @@ google-chrome
 rectangle
 signal
 slack
+spotify
 zoom'
 
   comm -13 <(brew list --cask | sort) <(echo "$CASKS" | sort) | xargs brew install --cask
